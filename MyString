@@ -1,0 +1,32 @@
+#ifndef MYSTRING_H
+#define MYSTRING_H
+
+#include <iostream>
+
+class MyString {
+private:
+    char* m_data; // Pointer to the actual string data
+    size_t m_length; // Length of the string
+
+public:
+    
+    MyString();
+
+    // Constructor from C-style string
+    MyString(const char* str);
+
+    // Destructor 
+    ~MyString();
+
+    // Copy constructor 
+    MyString(const MyString& other);
+
+    // Overloaded assignment operator 
+    MyString& operator=(const MyString& other);
+
+    // Basic helper functions
+    size_t length() const { return m_length; }
+    const char* c_str() const { return m_data; }
+};
+
+#endif // MYSTRING_H
