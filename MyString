@@ -1,32 +1,121 @@
-#ifndef MYSTRING_H
-#define MYSTRING_H
-
 #include <iostream>
 
-class MyString {
-private:
-    char* m_data; // Pointer to the actual string data
-    size_t m_length; // Length of the string
 
+using namespace std;
+
+class MyString
+{
 public:
-    
-    MyString();
 
-    // Constructor from C-style string
-    MyString(const char* str);
+	MyString()
+	{
+		str = nullptr;
+	}
+	MyString(const char *str)
+	{
+		int length = strlen(str);
+		this->str = new char[length + 1];
 
-    // Destructor 
-    ~MyString();
+			for (size_t i = 0; i < length; i++)
+			{
+				this->str[i] = str[i];
+			}
+			this->str[length] = '\0';
+	}
 
-    // Copy constructor 
-    MyString(const MyString& other);
 
-    // Overloaded assignment operator 
-    MyString& operator=(const MyString& other);
+	~MyString()
+	{
+		delete[] this->str;
+	}
 
-    // Basic helper functions
-    size_t length() const { return m_length; }
-    const char* c_str() const { return m_data; }
+	MyString(const MyString& other)
+	{
+		if (this->str != nullptr)
+		{
+			delete[]str;
+		}
+		int length = strlen(other.str);
+		this->str = new char[length + 1];
+
+		for (int i = 0; i < length; i++)
+		{
+			this->str[i] = other.str[i];
+		}
+		this->str[length] = '\0';
+
+		
+	}
+
+
+
+	MyString& operator =(const MyString & other)
+	{
+		if (this->str!=nullptr)
+		{
+			delete[]str;
+		}
+		int length = strlen(other.str);
+		this->str = new char[length + 1];
+
+		for (int i = 0; i < length; i++)
+		{
+			this->str[i] = other.str[i];
+		}
+		this->str[length] = '\0';
+
+		return *this;
+	}
+
+	
+
+	MyString operator +(const MyString &other)
+	{
+		MyString newStr;
+
+		int thisLength = strlen(this->str);
+
+		int otherLength = strlen(other.str);
+
+
+		newStr.str = new char[thisLength + otherLength +1];
+
+		int i = 0;
+
+		for (; i < thisLength; i++)
+		{
+			newStr.str[i] = this->str[i];
+		}
+		for (int j = 0; j < otherLength; j++,i++)
+		{
+			newStr.str[i] = other.str[j];
+		}
+		newStr.str[thisLength + otherLength] = '\0';
+
+		return newStr;
+	}
+
+	void Print()
+	{
+		cout << str;
+	}
+private:
+	char *str;
+
 };
 
-#endif // MYSTRING_H
+
+
+int main()
+{
+	MyString str("Hello");
+	MyString str2("World");
+
+	MyString result = str +str2;
+
+	result.Print();
+
+	
+
+	return 0;
+}
